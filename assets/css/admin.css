@@ -11,16 +11,24 @@ body {
   display: flex;
   min-height: 100vh;
   height: 100vh;
+  margin-left: 220px;
 }
 
 .sidebar {
   width: 220px;
-  background: #fff;
+  background: #474747;
+  color: #fff;
   border-right: 1px solid #e5e5e5;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 0;
+  min-height: 100vh;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
 }
 .sidebar-header {
   display: flex;
@@ -29,9 +37,9 @@ body {
   border-bottom: 1px solid #e5e5e5;
 }
 .logo {
-  width: 32px;
-  height: 32px;
-  margin-right: 10px;
+  width: 100px;
+  height: 100px;
+  margin-right: 0;
 }
 .company-name {
   font-weight: 700;
@@ -52,14 +60,14 @@ body {
   display: flex;
   align-items: center;
   padding: 14px 20px;
-  color: #222;
+  color: #fff;
   text-decoration: none;
   font-size: 1rem;
   transition: background 0.2s;
 }
 .sidebar-nav ul li a:hover,
 .sidebar-footer ul li a:hover {
-  background: #f0f0f0;
+  background: #8b8b8b;
 }
 .sidebar-nav i,
 .sidebar-footer i {

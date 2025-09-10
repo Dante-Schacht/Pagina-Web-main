@@ -1,0 +1,153 @@
+/* Estilos independientes para el área de administración ElectroVerse */
+body {
+  background: #f7f7f7;
+  font-family: 'Montserrat', 'Poppins', Arial, sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.admin-container {
+  display: flex;
+  min-height: 100vh;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 220px;
+  background: #fff;
+  border-right: 1px solid #e5e5e5;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0;
+}
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  padding: 24px 20px 16px 20px;
+  border-bottom: 1px solid #e5e5e5;
+}
+.logo {
+  width: 32px;
+  height: 32px;
+  margin-right: 10px;
+}
+.company-name {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+.sidebar-nav ul,
+.sidebar-footer ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.sidebar-nav ul li,
+.sidebar-footer ul li {
+  margin: 0;
+}
+.sidebar-nav ul li a,
+.sidebar-footer ul li a {
+  display: flex;
+  align-items: center;
+  padding: 14px 20px;
+  color: #222;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+.sidebar-nav ul li a:hover,
+.sidebar-footer ul li a:hover {
+  background: #f0f0f0;
+}
+.sidebar-nav i,
+.sidebar-footer i {
+  margin-right: 12px;
+  font-size: 1.1em;
+}
+.sidebar-footer {
+  border-top: 1px solid #e5e5e5;
+  padding-bottom: 16px;
+}
+.profile-section {
+  padding: 16px 20px 0 20px;
+  border-top: 1px solid #e5e5e5;
+}
+.profile-section a {
+  color: #222;
+  text-decoration: none;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+.profile-section i {
+  margin-right: 10px;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #f7f7f7;
+}
+.main-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 32px 36px 0 36px;
+  background: #f7f7f7;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #222;
+}
+.notification-icon {
+  font-size: 1.5em;
+  color: #222;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.notification-icon:hover {
+  color: #007bff;
+}
+.content-top {
+  flex: 1;
+  background: #fff;
+  margin: 24px 36px 12px 36px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.content-bottom {
+  flex: 1;
+  background: #fff;
+  margin: 0 36px 36px 36px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  padding: 24px;
+}
+
+@media (max-width: 900px) {
+  .admin-container {
+    flex-direction: column;
+    height: auto;
+  }
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    border-right: none;
+    border-bottom: 1px solid #e5e5e5;
+    height: auto;
+    position: static;
+  }
+  .main-content {
+    padding: 0;
+  }
+  .main-header, .content-top, .content-bottom {
+    margin: 0;
+    padding: 16px;
+  }
+}

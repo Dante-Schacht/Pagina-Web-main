@@ -1,0 +1,272 @@
+/* Mejorar visibilidad del botón cerrar en modales personalizados */
+.modal-custom .btn-close {
+  background: var(--color-primario);
+  border-radius: 50%;
+  opacity: 1;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  cursor: pointer;
+  position: relative;
+}
+.modal-custom .btn-close::before {
+  content: '';
+  display: block;
+  width: 18px;
+  height: 18px;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><line x1="4" y1="4" x2="14" y2="14" stroke="white" stroke-width="2"/><line x1="14" y1="4" x2="4" y2="14" stroke="white" stroke-width="2"/></svg>');
+  background-size: 18px 18px;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: absolute;
+  top: 7px;
+  left: 7px;
+}
+.modal-custom .btn-close span {
+  display: none;
+}
+
+
+/* Asegura que el icono SVG o pseudo-elemento sea blanco */
+.modal-custom .btn-close::before, .modal-custom .btn-close::after {
+  display: none !important;
+}
+/* Modal personalizado carrito */
+.modal-custom {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 2000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  transition: opacity 0.2s;
+  padding-top: 60px;
+}
+.modal-custom-content {
+  background: var(--blanco);
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  width: 100%;
+  max-width: 400px;
+  padding: 1.5rem;
+  margin: 0 auto;
+  position: relative;
+  overflow-y: auto;
+  max-height: 80vh;
+  margin-top: 0;
+}
+.modal-custom-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--gris-400);
+  margin-bottom: 1rem;
+}
+.modal-custom-body {
+  min-height: 80px;
+  max-height: 50vh;
+  overflow-y: auto;
+}
+.modal-custom .btn-close {
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  color: var(--gris-700);
+  cursor: pointer;
+}
+/* Variables de color y fuente */
+:root {
+  --color-primario: #0d6efd;
+  --color-secundario: #6610f2;
+  --gris-700: #23272f;
+  --gris-400: #ced4da;
+  --blanco: #fff;
+  --negro: #222;
+  --gradient: linear-gradient(90deg, #0d6efd 0%, #6610f2 100%);
+}
+
+body {
+  font-family: 'Poppins', Arial, sans-serif;
+  background: var(--blanco);
+  color: var(--gris-700);
+  letter-spacing: 0.01em;
+}
+
+.container-xl {
+  max-width: 1200px;
+}
+
+.text-gradient {
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: var(--color-primario);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', Arial, sans-serif;
+  font-weight: 600;
+  color: var(--gris-700);
+  letter-spacing: 0.02em;
+}
+
+
+h1 { font-size: 2.5rem; }
+  h2 { font-size: 2.2rem; }
+  h3 { font-size: 1.6rem; }
+  p { font-size: 1.15rem; }
+
+/* Navbar */
+.navbar {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  background: var(--blanco);
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+.navbar-brand {
+  font-weight: 700;
+  color: var(--color-primario) !important;
+  letter-spacing: 0.04em;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  color: var(--color-primario) !important;
+}
+.nav-link {
+  color: var(--gris-700) !important;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.nav-link:hover {
+  color: var(--color-primario) !important;
+}
+
+/* Hero */
+.hero {
+  padding: 6rem 0 5rem 0;
+  background: linear-gradient(120deg, #0d6efd, #6610f2, #0d6efd);
+  background-size: 200% 200%;
+  animation: gradientMove 6s ease-in-out infinite;
+  color: var(--blanco);
+  border-radius: 0 0 2rem 2rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.10);
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+.nosotros{
+  font-family: 'Poppins', Arial, sans-serif;
+  font-weight: 600;
+  color: var(--gris-700);
+  letter-spacing: 0.02em;
+}
+.hero-sub {
+  font-size: 1.4rem;
+  margin-bottom: 2.5rem;
+}
+.hero-img {
+  max-width: 100%;
+  border-radius: 1rem;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+}
+
+/* Cards productos */
+.card-producto {
+  border: 1px solid var(--gris-400);
+  border-radius: 1.2rem;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.card-producto:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+}
+.card-producto img {
+  border-radius: 1.2rem 1.2rem 0 0;
+}
+.card-producto .btn {
+  background: var(--color-primario);
+  color: var(--blanco);
+  font-weight: 600;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.card-producto .btn:hover {
+  background: var(--color-secundario);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.10);
+}
+
+/* Footer */
+footer {
+  background: var(--gris-700);
+  color: var(--blanco);
+  padding: 2rem 0 1rem 0;
+  border-radius: 2rem 2rem 0 0;
+  box-shadow: 0 -4px 24px rgba(0,0,0,0.08);
+}
+footer a {
+  color: var(--blanco);
+  text-decoration: underline;
+  margin-right: 1rem;
+}
+footer a:hover {
+  color: var(--color-primario);
+}
+
+/* Utilidades */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+}
+
+/* Imágenes cuadradas para productos relacionados */
+.img-cuadrada {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  max-width: 120px;
+  margin: 0 auto;
+  display: block;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .modal-custom-content {
+    max-width: 95vw;
+    padding: 1rem;
+  }
+  .hero {
+    padding: 2rem 0 1.5rem 0;
+  }
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.5rem; }
+  .hero-title { font-size: 2rem; }
+}
+@media (max-width: 576px) {
+  .card-producto {
+    margin-bottom: 1.5rem;
+  }
+  .hero-title { font-size: 1.5rem; }
+}

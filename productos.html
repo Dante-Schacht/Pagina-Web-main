@@ -1,0 +1,356 @@
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      actualizarCarritoBadge();
+      document.querySelectorAll('button[data-add-cart]').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const prod = {
+            id: btn.getAttribute('data-id'),
+            nombre: btn.getAttribute('data-name'),
+            precio: parseInt(btn.getAttribute('data-price'), 10),
+            img: btn.getAttribute('data-img'),
+            desc: btn.getAttribute('data-desc')
+          };
+          addToCarrito(prod);
+        });
+      });
+    });
+  </script>
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Productos | ElectroVerse</title>
+  <meta name="description" content="Catálogo completo de productos en ElectroVerse.">
+  <link rel="icon" type="image/png" href="assets/img/favicon.png">
+  <style>
+    body {
+      background: #e3e3e3 !important;
+    }
+    .electroverse-logo {
+      font-family: 'Poppins', sans-serif !important;
+      color: #0d6efd !important;
+      background: none !important;
+      text-shadow: 0 2px 8px rgba(13,110,253,0.12);
+    }
+  </style>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- Bootstrap 5.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Hoja propia (overrides) -->
+  <link rel="stylesheet" href="/assets/css/styles.css">
+    <script src="assets/js/carrito.js" defer></script>
+  <style>
+    .img-cuadrada {
+      width: 100%;
+      aspect-ratio: 1/1;
+      object-fit: cover;
+      max-width: 180px;
+      margin: 0 auto;
+      display: block;
+    }
+    .card-producto {
+      min-width: 220px;
+      max-width: 260px;
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: 18px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      border: 1px solid #eee;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: stretch;
+    }
+    .card-producto .card-body {
+      width: 100%;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: stretch;
+    }
+    .row#grid-productos-extra {
+      justify-content: center;
+    }
+    .img-monitor {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: contain;
+      max-width: 260px;
+      margin: 0 auto;
+      display: block;
+      border-radius: 16px;
+      background: #fff;
+    }
+  </style>
+</head>
+<body>
+  <body onload="actualizarCarritoBadge()">
+  <header>
+    <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top" aria-label="Menú principal">
+      <div class="container-xl">
+  <a class="navbar-brand fs-3 fw-bold electroverse-logo" href="index.html">ElectroVerse</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Abrir menú">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+            <li class="nav-item"><a class="nav-link" href="productos.html" aria-current="page">Productos</a></li>
+            <li class="nav-item"><a class="nav-link" href="blogs.html">Blogs</a></li>
+            <li class="nav-item"><a class="nav-link" href="nosotros.html">Nosotros</a></li>
+            <li class="nav-item"><a class="nav-link" href="contacto.html">Contacto</a></li>
+          </ul>
+          <div class="d-flex align-items-center ms-auto gap-2">
+            <a href="registro.html" class="btn btn-outline-primary">Registrarse</a>
+            <a href="login.html" class="btn btn-primary">Ingresar</a>
+            <a href="carrito.html" class="btn btn-outline-dark position-relative">
+              <i class="bi bi-cart"></i>
+              <span class="ms-1">Carrito (<span id="cart-count">0</span>)</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <!-- Modal carrito Bootstrap -->
+  <div id="modalCarritoCustom" class="modal fade" tabindex="-1" aria-labelledby="modalCarritoLabel" aria-modal="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 id="modalCarritoLabel" class="modal-title">Carrito de compras</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div id="carrito-lista"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <main>
+    <section class="py-5" style="margin-top:80px;">
+      <div class="container-xl">
+        <h1 class="mb-4 text-center">Catálogo completo</h1>
+        <div class="row" id="grid-productos-extra">
+          <!-- Catálogo completo editable -->
+          <div class="col-12 col-md-6 col-lg-4 mb-4">
+            <div class="card card-producto h-100">
+              
+              <a href="producto-auriculares.html">
+                <img src="img/audifonos.jpg" class="card-img-top img-cuadrada" alt="Auriculares Bluetooth">
+              </a>
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title">Auriculares Bluetooth</h5>
+                <p class="card-text fw-bold mb-2">$24.990</p>
+                <div class="d-flex gap-2 mt-auto">
+                  <button class="btn btn-primary" data-add-cart data-id="auriculares" data-name="Auriculares Bluetooth" data-price="24990" data-img="img/audifonos.jpg" data-desc="Auriculares Bluetooth">Añadir al carrito</button>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4 mb-4">
+            <div class="card card-producto h-100">
+              
+              <a href="producto-smartwatch.html">
+                <img src="img/smartwatch.jpg" class="card-img-top img-cuadrada" alt="Smartwatch Deportivo">
+              </a>
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title">Smartwatch Deportivo</h5>
+                <p class="card-text fw-bold mb-2">$39.990</p>
+                <div class="d-flex gap-2 mt-auto">
+                  <button class="btn btn-primary" data-add-cart data-id="smartwatch" data-name="Smartwatch Deportivo" data-price="39990" data-img="img/smartwatch.jpg" data-desc="Smartwatch Deportivo">Añadir al carrito</button>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4 mb-4">
+            <div class="card card-producto h-100">
+              
+              <a href="producto-camara.html">
+                <img src="img/camara.jpg" class="card-img-top img-cuadrada" alt="Cámara Web HD">
+              </a>
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title">Cámara Web HD</h5>
+                <p class="card-text fw-bold mb-2">$19.990</p>
+                <div class="d-flex gap-2 mt-auto">
+                  <button class="btn btn-primary" data-add-cart data-id="camara" data-name="Cámara Web HD" data-price="19990" data-img="img/camara.jpg" data-desc="Cámara Web HD">Añadir al carrito</button>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4 mb-4">
+            <div class="card card-producto h-100">
+              
+              <a href="producto-teclado.html">
+                <img src="img/teclado.png" class="card-img-top img-cuadrada" alt="Teclado Mecánico">
+              </a>
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title">Teclado Mecánico</h5>
+                <p class="card-text fw-bold mb-2">$34.990</p>
+                <div class="d-flex gap-2 mt-auto">
+                  <button class="btn btn-primary" data-add-cart data-id="teclado" data-name="Teclado Mecánico" data-price="34990" data-img="img/teclado.png" data-desc="Teclado Mecánico">Añadir al carrito</button>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4 mb-4">
+            <div class="card card-producto h-100">
+              
+              <a href="producto-mouse.html">
+                <img src="img/mouse.jpg" class="card-img-top img-cuadrada" alt="Mouse Gamer">
+              </a>
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title">Mouse Gamer</h5>
+                <p class="card-text fw-bold mb-2">$15.990</p>
+                <div class="d-flex gap-2 mt-auto">
+                  <button class="btn btn-primary" data-add-cart data-id="mouse" data-name="Mouse Gamer" data-price="15990" data-img="img/mouse.jpg" data-desc="Mouse Gamer">Añadir al carrito</button>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4 mb-4">
+            <div class="card card-producto h-100">
+              
+              <a href="producto-parlante.html">
+                <img src="img/parlante.jpg" class="card-img-top img-cuadrada" alt="Parlante Portátil">
+              </a>
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title">Parlante Portátil</h5>
+                <p class="card-text fw-bold mb-2">$29.990</p>
+                <div class="d-flex gap-2 mt-auto">
+                  <button class="btn btn-primary" data-add-cart data-id="parlante" data-name="Parlante Portátil" data-price="29990" data-img="img/parlante.jpg" data-desc="Parlante Portátil">Añadir al carrito</button>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Productos extra -->
+          <div class="col-12 col-md-6 col-lg-4 mb-4">
+            <div class="card card-producto h-100">
+              
+              <a href="producto-tablet.html">
+                <img src="img/tablet.jpg" class="card-img-top img-cuadrada" alt="Tablet Pro">
+              </a>
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title">Tablet Pro</h5>
+                <p class="card-text fw-bold mb-2">$89.990</p>
+                  <div class="d-flex gap-2 mt-auto">
+                    <button class="btn btn-primary" data-add-cart data-id="tablet" data-name="Tablet Pro" data-price="89990" data-img="img/tablet.jpg" data-desc="Tablet Pro">Añadir al carrito</button>
+                    
+                  </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4 mb-4">
+            <div class="card card-producto h-100">
+              
+              <a href="producto-monitor.html">
+                <img src="img/monitor.jpg" class="img-monitor" alt="Monitor 4K">
+              </a>
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title">Monitor 4K</h5>
+                <p class="card-text fw-bold mb-2">$129.990</p>
+                  <div class="d-flex gap-2 mt-auto">
+                    <button class="btn btn-primary" data-add-cart data-id="monitor" data-name="Monitor 4K" data-price="129990" data-img="img/monitor.jpg" data-desc="Monitor 4K">Añadir al carrito</button>
+                    
+                  </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4 mb-4">
+            <div class="card card-producto h-100">
+              
+              <a href="producto-ssd.html">
+                <img src="img/ssd.png" class="card-img-top img-cuadrada" alt="SSD Externo">
+              </a>
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title">SSD Externo</h5>
+                <p class="card-text fw-bold mb-2">$49.990</p>
+                  <div class="d-flex gap-2 mt-auto">
+                    <button class="btn btn-primary" data-add-cart data-id="ssd" data-name="SSD Externo" data-price="49990" data-img="img/ssd.png" data-desc="SSD Externo">Añadir al carrito</button>
+                    
+                  </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4 mb-4">
+            <div class="card card-producto h-100">
+              
+              <a href="producto-cargador.html">
+                <img src="img/Cargador.jpeg" class="card-img-top img-cuadrada" alt="Cargador Rápido">
+              </a>
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title">Cargador Rápido</h5>
+                <p class="card-text fw-bold mb-2">$12.990</p>
+                  <div class="d-flex gap-2 mt-auto">
+                    <button class="btn btn-primary" data-add-cart data-id="cargador" data-name="Cargador Rápido" data-price="12990" data-img="img/Cargador.jpeg" data-desc="Cargador Rápido">Añadir al carrito</button>
+                    
+                  </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4 mb-4">
+            <div class="card card-producto h-100">
+              
+              <a href="producto-audifonospro.html">
+                <img src="img/audifonospro.jpg" class="card-img-top img-cuadrada" alt="Auriculares Pro">
+              </a>
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title">Auriculares Pro</h5>
+                <p class="card-text fw-bold mb-2">$59.990</p>
+                  <div class="d-flex gap-2 mt-auto">
+                    <button class="btn btn-primary" data-add-cart data-id="audifonospro" data-name="Auriculares Pro" data-price="59990" data-img="img/audifonospro.jpg" data-desc="Auriculares Pro">Añadir al carrito</button>
+                    
+                  </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4 mb-4">
+            <div class="card card-producto h-100">
+              
+              <a href="producto-smarttv.html">
+                <img src="img/smarttv.jpg" class="card-img-top img-cuadrada" alt="Smart TV">
+              </a>
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title">Smart TV</h5>
+                <p class="card-text fw-bold mb-2">$299.990</p>
+                  <div class="d-flex gap-2 mt-auto">
+                    <button class="btn btn-primary" data-add-cart data-id="smarttv" data-name="Smart TV" data-price="299990" data-img="img/smarttv.jpg" data-desc="Smart TV">Añadir al carrito</button>
+                    
+                  </div>
+              </div>
+            </div>
+          </div>
+    </section>
+  </main>
+  <footer class="mt-5">
+    <div class="container-xl text-center py-4">
+      <span class="fw-bold fs-5 text-gradient">Tienda Nube</span>
+      <div class="mt-2 mb-2">
+        <a href="#" class="me-3">Términos</a>
+        <a href="#">Privacidad</a>
+      </div>
+      <small class="text-muted">&copy; <span id="footer-year"></span> Tienda Nube. Todos los derechos reservados.</small>
+    </div>
+  </footer>
+  <!-- Bootstrap 5.3 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Scripts propios defer según vista -->
+  <script src="assets/js/data.products.js" defer></script>
+  <script src="assets/js/carrito.js" defer></script>
+  <script src="assets/js/app.products.js" defer></script>
+</body>
+</html>

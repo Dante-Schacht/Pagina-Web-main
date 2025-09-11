@@ -47,8 +47,10 @@
             <li class="nav-item"><a class="nav-link" href="contacto.html">Contacto</a></li>
           </ul>
           <div class="d-flex align-items-center ms-auto gap-2">
-            <a href="registro.html" class="btn btn-outline-primary">Registrarse</a>
-            <a href="login.html" class="btn btn-primary">Ingresar</a>
+            <span id="usuarioSaludo" class="fw-bold text-primary me-2" style="display:none;"></span>
+            <button id="btnLogout" class="btn btn-outline-danger me-2" style="display:none;">Cerrar sesión</button>
+            <a href="registro.html" class="btn btn-outline-primary" id="btnRegistro">Registrarse</a>
+            <a href="login.html" class="btn btn-primary" id="btnLogin">Ingresar</a>
             <a href="carrito.html" class="btn btn-outline-dark position-relative">
               <i class="bi bi-cart"></i>
               <span class="ms-1">Carrito (<span id="cart-count">0</span>)</span>
@@ -258,6 +260,27 @@
   <script src="assets/js/app.js" defer></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+      var usuarioLogueado = localStorage.getItem('usuarioLogueado');
+      if(usuarioLogueado) {
+        var btnRegistro = document.getElementById('btnRegistro');
+        var btnLogin = document.getElementById('btnLogin');
+        var usuarioSaludo = document.getElementById('usuarioSaludo');
+        var btnLogout = document.getElementById('btnLogout');
+        var usuarioObj = JSON.parse(usuarioLogueado);
+        if(btnRegistro) btnRegistro.style.display = 'none';
+        if(btnLogin) btnLogin.style.display = 'none';
+        if(usuarioSaludo && usuarioObj && usuarioObj.nombre) {
+          usuarioSaludo.textContent = '¡Hola, ' + usuarioObj.usuario + '!';
+          usuarioSaludo.style.display = 'inline-block';
+        }
+        if(btnLogout) {
+          btnLogout.style.display = 'inline-block';
+          btnLogout.onclick = function() {
+            localStorage.removeItem('usuarioLogueado');
+            location.reload();
+          };
+        }
+      }
       actualizarCarritoBadge();
       document.querySelectorAll('button[data-add-cart]').forEach(btn => {
         btn.addEventListener('click', function() {

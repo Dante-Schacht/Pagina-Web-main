@@ -1,21 +1,19 @@
-<!doctype html>
-<html lang="es">
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login | ElectroVerse</title>
+  <title>Registro | ElectroVerse</title>
   <link rel="stylesheet" href="assets/css/styles.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     body { background: #e3e3e3; font-family: 'Poppins', sans-serif; }
-    .login-card { max-width: 480px; margin: 40px auto; background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(13,110,253,0.08); padding: 32px 28px; }
-    .login-title { color: #0d6efd; font-weight: 700; text-align: center; margin-bottom: 24px; }
+    .registro-card { max-width: 480px; margin: 40px auto; background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(13,110,253,0.08); padding: 32px 28px; }
+    .registro-title { color: #0d6efd; font-weight: 700; text-align: center; margin-bottom: 24px; }
     .form-label { font-weight: 600; color: #222; }
-    .btn-login { background: #0d6efd; color: #fff; font-weight: 600; }
-    .btn-login:hover { background: #0b5ed7; }
+    .btn-registro { background: #0d6efd; color: #fff; font-weight: 600; }
+    .btn-registro:hover { background: #0b5ed7; }
   </style>
 </head>
 <body>
@@ -41,43 +39,63 @@
     </div>
   </nav>
   <main>
-    <div class="login-card">
-      <h2 class="login-title">Iniciar Sesión</h2>
-      <form id="formLogin">
+    <div class="registro-card">
+      <h2 class="registro-title">Registro de Usuario</h2>
+      <form id="formRegistro">
+        <div class="mb-3">
+          <label for="nombre" class="form-label">Nombre completo</label>
+          <input type="text" class="form-control" id="nombre" name="nombre" required maxlength="100">
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Correo electrónico</label>
+          <input type="email" class="form-control" id="email" name="email" required maxlength="100">
+        </div>
         <div class="mb-3">
           <label for="usuario" class="form-label">Usuario</label>
           <input type="text" class="form-control" id="usuario" name="usuario" required maxlength="30">
         </div>
         <div class="mb-3">
+          <label for="telefono" class="form-label">Teléfono</label>
+          <input type="text" class="form-control" id="telefono" name="telefono" maxlength="15">
+        </div>
+        <div class="mb-3">
           <label for="password" class="form-label">Contraseña</label>
           <input type="password" class="form-control" id="password" name="password" required minlength="6">
         </div>
-        <button type="submit" class="btn btn-login w-100 mt-2">Ingresar</button>
+        <div class="mb-3">
+          <label for="confirmar" class="form-label">Confirmar contraseña</label>
+          <input type="password" class="form-control" id="confirmar" name="confirmar" required minlength="6">
+        </div>
+        <button type="submit" class="btn btn-registro w-100 mt-2">Registrarse</button>
       </form>
       <div class="text-center mt-3">
-        <span>¿No tienes cuenta? <a href="registro.html" style="color:#0d6efd;font-weight:600;">Registrarse</a></span>
+        <span>¿Ya tienes cuenta? <a href="login.html" style="color:#0d6efd;font-weight:600;">Ingresar</a></span>
       </div>
-      <div id="loginMensaje" class="text-center mt-3" style="color:#d32f2f;font-weight:600;"></div>
     </div>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    document.getElementById('formLogin').addEventListener('submit', function(e) {
+    document.getElementById('formRegistro').addEventListener('submit', function(e) {
       e.preventDefault();
+      const nombre = document.getElementById('nombre').value.trim();
+      const email = document.getElementById('email').value.trim();
       const usuario = document.getElementById('usuario').value.trim();
+      const telefono = document.getElementById('telefono').value.trim();
       const password = document.getElementById('password').value;
-      let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
-      const user = usuarios.find(u => u.usuario === usuario && u.password === password);
-      const mensaje = document.getElementById('loginMensaje');
-      if(user) {
-        localStorage.setItem('usuarioLogueado', JSON.stringify(user));
-        mensaje.style.color = '#0d6efd';
-        mensaje.textContent = '¡Ingreso exitoso!';
-        setTimeout(() => { window.location.href = 'index.html'; }, 1200);
-      } else {
-        mensaje.style.color = '#d32f2f';
-        mensaje.textContent = 'Usuario o contraseña incorrectos.';
+      const confirmar = document.getElementById('confirmar').value;
+      if(password !== confirmar) {
+        alert('Las contraseñas no coinciden.');
+        return;
       }
+      // Guardar en LocalStorage
+      let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+      usuarios.push({ nombre, email, usuario, telefono, password });
+      localStorage.setItem('usuarios', JSON.stringify(usuarios));
+      // Guardar usuario logueado
+      localStorage.setItem('usuarioLogueado', JSON.stringify({ nombre, email, usuario, telefono }));
+      alert('¡Registro exitoso!');
+      document.getElementById('formRegistro').reset();
+      window.location.href = 'index.html';
     });
   </script>
 </body>
